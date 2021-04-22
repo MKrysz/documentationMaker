@@ -25,7 +25,7 @@ def addItem(directory, doc):
     buffer = "<li><a href=\"" + directory + '/' + doc + "\" target = \"_blank\">"+ doc[:-4]
     if isWindows:
         buffer = buffer.replace('/', '\\')
-    file.write(buffer + "</a></li>")
+    file.write(buffer + "</a></li>\n")
 
 
 dir = "C:/Users/macie/Documents/Documentation"
@@ -43,7 +43,8 @@ def rek(dir):
         if not result[2]:
             addItem(result[0], "empty.pdf")
         for doc in result[2]:
-            addItem(result[0], doc)
+            if doc[-3:] == "pdf":
+                addItem(result[0], doc)
 
 file = startFile()
 rek(dir)
