@@ -1,7 +1,9 @@
 import os
+import webbrowser
+htmlName = "documentation.html"
 
 def startFile():
-    file = open('documentation.html', 'w')
+    file = open(htmlName, 'w')
     file.write("<!DOCTYPE html>\n")
     file.write("<html>\n")
     file.write("<head>\n")
@@ -12,19 +14,19 @@ def startFile():
     return file
 
 def closeFile():
-    file.write("</ul>\n")
+    file.write("\n")
     file.write("</body>\n")
     file.write("</html>\n")
 
 def startList(name):
-    file.write("<li><ul><h><b>" + name + "</b></h>\n")
+    file.write("<p></p> <li><ul><h><b>" + name + "</b></h>\n")
 
 def closeList():
     file.write("</ul></li>\n")
 
 def addItem(directory, doc):
     buffer = "<li><a href=\"" + directory + '/' + doc + "\" target = \"_blank\">"+ doc[:-4]
-    if isWindows:
+    if os.name == "nt":
         buffer = buffer.replace('/', '\\')
     file.write(buffer + "</a></li>\n")
 
@@ -45,7 +47,7 @@ def rek(dir):
 
 dir = "C:/Users/macie/Documents/Documentation"
 gen = list(os.walk(dir))
-isWindows = 1
 file = startFile()
 rek(dir)
 closeFile()
+webbrowser.open_new_tab(htmlName)
