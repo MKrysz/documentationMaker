@@ -44,9 +44,11 @@ def getAddress(directory, doc):
         result = result.replace('/', '\\')
     return result
 
-def addDescripion(txtFile):
-    file.write(str(txtFile.read()))
-    file.write("<p></p>\n")
+def addDescripion(descLines, doc):
+    for line in descLines:
+        index = line.find(doc)
+        if index > -1:
+            file.write(line[index + len(doc):] + "<p></p>")
 
 #main recursive function
 def rek(dir):
@@ -60,12 +62,16 @@ def rek(dir):
         if not result[2]:
             addItem(result[0], "empty.pdf")
         for doc in result[2]:
+            description = 0
+            if doc == "description.txt":
+                descriptionFile = open(getAddress(result[0], doc), 'r')
+                description = descriptionFile.readlines()
+                break
+        for doc in result[2]:
             if doc[-3:] == "pdf":
                 addItem(result[0], doc)
-                for txtFile in result[2]:
-                    if txtFile == doc[:-4] + ".txt":
-                        description = open(getAddress(result[0], txtFile), 'r')
-                        addDescripion(description)
+                if description:
+                    addDescripion(description, doc[:-4])
 
 
 file = startFile()
