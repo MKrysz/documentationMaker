@@ -2,7 +2,7 @@ import os
 import webbrowser
 
 # change name of created html file and directory to your documentation
-htmlName = "documentation.html"
+htmlName = "C:/Users/macie/Documents/Documentation/documentation.html"
 dir = "C:/Users/macie/Documents/Documentation"
 
 
@@ -68,7 +68,6 @@ def rek(dir):
                         addDescripion(description)
 
 
-gen = list(os.walk(dir))
 file = startFile()
 rek(dir)
 closeFile()
