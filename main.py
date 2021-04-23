@@ -8,15 +8,16 @@ def startFile():
     file.write("<title>Electronic documentation</title>\n")
     file.write("</head>\n")
     file.write("<body>\n")
-    file.write("")
+    file.write("<ul>\n")
     return file
 
 def closeFile():
+    file.write("</ul>\n")
     file.write("</body>\n")
     file.write("</html>\n")
 
 def startList(name):
-    file.write("<li><ul><b>" + name + '</b>\n')
+    file.write("<li><ul><h><b>" + name + "</b></h>\n")
 
 def closeList():
     file.write("</ul></li>\n")
@@ -26,11 +27,6 @@ def addItem(directory, doc):
     if isWindows:
         buffer = buffer.replace('/', '\\')
     file.write(buffer + "</a></li>\n")
-
-
-dir = "C:/Users/macie/Documents/Documentation"
-gen = list(os.walk(dir))
-isWindows = 1
 
 def rek(dir):
     result = list(os.walk(dir))[0]
@@ -46,6 +42,10 @@ def rek(dir):
             if doc[-3:] == "pdf":
                 addItem(result[0], doc)
 
+
+dir = "C:/Users/macie/Documents/Documentation"
+gen = list(os.walk(dir))
+isWindows = 1
 file = startFile()
 rek(dir)
 closeFile()
