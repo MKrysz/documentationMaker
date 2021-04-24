@@ -1,9 +1,11 @@
 import os
 import webbrowser
 
-# change name of created html file and directory to your documentation
+# change name and directory of created html file, directory to your documentation, and directory
+# to preferred browser
 htmlName = "C:/Users/macie/Documents/Documentation/documentation.html"
 dir = "C:/Users/macie/Documents/Documentation"
+edgePath = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
 
 
 # creates .html file and writes basic html template
@@ -77,4 +79,5 @@ def rek(dir):
 file = startFile()
 rek(dir)
 closeFile()
-webbrowser.open_new_tab(htmlName)
+webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edgePath))
+webbrowser.get('edge').open_new_tab(htmlName)
