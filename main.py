@@ -51,6 +51,9 @@ def addDescripion(descLines, doc):
         index = line.find(doc)
         if index > -1:
             file.write(line[index + len(doc):] + "<p></p>")
+            return 1
+    return 0
+
 
 #main recursive function
 def rek(dir):
@@ -63,17 +66,24 @@ def rek(dir):
     else:
         if not result[2]:
             addItem(result[0], "empty.pdf")
+        description = 0
+        descriptionFound = 0
         for doc in result[2]:
-            description = 0
             if doc == "description.txt":
-                descriptionFile = open(getAddress(result[0], doc), 'r')
+                descriptionFound = 1
+                descriptionFile = open(getAddress(result[0], doc), 'r+')
                 description = descriptionFile.readlines()
                 break
+        if not descriptionFound:
+            descriptionFile = open(getAddress(result[0], "description.txt"), 'w')
+            description = ("none", "none")
         for doc in result[2]:
             if doc[-3:] == "pdf":
                 addItem(result[0], doc)
                 if description:
-                    addDescripion(description, doc[:-4])
+                    if not addDescripion(description, doc[:-4]):
+                        descriptionFile.write(doc[:-4] + '\n')
+        descriptionFile.close()
 
 
 file = startFile()
