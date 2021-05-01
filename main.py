@@ -6,6 +6,7 @@ import webbrowser
 htmlName = "C:/Users/macie/Documents/Documentation/documentation.html"
 dir = "C:/Users/macie/Documents/Documentation"
 edgePath = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
+readableExtensions = ("pdf", "html", "jpg", "txt")
 
 
 # creates .html file and writes basic html template
@@ -37,7 +38,7 @@ def closeList():
 
 #adds pdf file to a list
 def addItem(directory, doc):
-    buffer = "<li><a href=\"" + getAddress(directory, doc) + "\" target = \"_blank\">" + doc[:-4]
+    buffer = "<li><a style=\"color:blue\" href=\"" + getAddress(directory, doc) + "\" target = \"_blank\">" + doc
     file.write(buffer + "</a></li>\n")
 
 def getAddress(directory, doc):
@@ -78,16 +79,21 @@ def rek(dir):
             descriptionFile = open(getAddress(result[0], "description.txt"), 'w')
             description = ("none", "none")
         for doc in result[2]:
-            if doc[-3:] == "pdf":
+            extension = doc[doc.find('.')+1:]
+            if extension in readableExtensions:
+                if doc == "description.txt":
+                    continue
                 addItem(result[0], doc)
                 if description:
-                    if not addDescripion(description, doc[:-4]):
-                        descriptionFile.write(doc[:-4] + '\n')
+                    if not addDescripion(description, doc):
+                        buffer = input("add description for " + doc + '\n')
+                        descriptionFile.write('\n' + doc + ' ' + buffer)
+                        file.write(buffer + "<p></p>")
         descriptionFile.close()
 
 
 file = startFile()
 rek(dir)
 closeFile()
-webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edgePath))
-webbrowser.get('edge').open_new_tab(htmlName)
+#webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edgePath))
+#webbrowser.get('edge').open_new_tab(htmlName)
