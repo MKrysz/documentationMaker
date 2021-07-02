@@ -80,12 +80,12 @@ def rek(directory):
                 description = descriptionFile.readlines()
                 break
         if not descriptionFound:
-            descriptionFile = open(getAddress(result[0], "description.txt"), 'w')
+            descriptionFile = open(getAddress(result[0], ".description"), 'w')
             description = ("none", "none")
         for doc in result[2]:
             extension = doc[doc.find('.')+1:]
             if extension in readableExtensions:
-                if doc == "description.txt":
+                if doc == ".description":
                     continue
                 addItem(result[0], doc)
                 if description:
