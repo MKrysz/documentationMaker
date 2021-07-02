@@ -1,21 +1,27 @@
 import os
-import webbrowser
 
-# change name and directory of created html file, directory to your documentation, and directory
-# to preferred browser
-htmlName = "C:/Users/macie/Documents/Documentation/documentation.html"
-dir = "C:/Users/macie/Documents/Documentation"
-edgePath = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
-readableExtensions = ("pdf", "html", "jpg", "txt")
+# change names and directories of created html files and directories to your documentation
+settings = (
+    ("C:/Users/macie/Documents/Documentation/documentation.html",
+     "Electronic documentation",
+     "C:/Users/macie/Documents/Documentation"),
+
+    ("C:/Users/macie/Books/Library.html",
+     "Library",
+     "C:/Users/macie/Books"),
+    None
+)
+
+readableExtensions = ("pdf", "html", "jpg", "txt", "png")
 
 
 # creates .html file and writes basic html template
-def startFile():
-    file = open(htmlName, 'w')
+def startFile(HTMLname, WebTitle):
+    file = open(HTMLname, 'w')
     file.write("<!DOCTYPE html>\n")
     file.write("<html>\n")
     file.write("<head>\n")
-    file.write("<title>Electronic documentation</title>\n")
+    file.write("<title>" + WebTitle + "</title>\n")
     file.write("</head>\n")
     file.write("<body>\n")
     file.write("<ul>\n")
@@ -57,20 +63,18 @@ def addDescripion(descLines, doc):
 
 
 #main recursive function
-def rek(dir):
-    result = list(os.walk(dir))[0]
+def rek(directory):
+    result = list(os.walk(directory))[0]
     if result[1]:
         for subDir in result[1]:
             startList(subDir)
-            rek(dir + '/' + subDir)
+            rek(directory + '/' + subDir)
             closeList()
     else:
-        if not result[2]:
-            addItem(result[0], "empty.pdf")
         description = 0
         descriptionFound = 0
         for doc in result[2]:
-            if doc == "description.txt":
+            if doc == ".description":
                 descriptionFound = 1
                 descriptionFile = open(getAddress(result[0], doc), 'r+')
                 description = descriptionFile.readlines()
@@ -91,9 +95,11 @@ def rek(dir):
                         file.write(buffer + "<p></p>")
         descriptionFile.close()
 
+for setting in settings:
+    if setting is None:
+        continue
+    file = startFile(setting[0], setting[1])
+    rek(setting[2])
+    closeFile()
 
-file = startFile()
-rek(dir)
-closeFile()
-#webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edgePath))
-#webbrowser.get('edge').open_new_tab(htmlName)
+
