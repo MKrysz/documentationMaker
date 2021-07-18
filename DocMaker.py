@@ -1,18 +1,5 @@
 import os
-
-# change names and directories of created html files and directories to your documentation
-settings = (
-    ("C:/Users/macie/Documents/Documentation/documentation.html",
-     "Electronic documentation",
-     "C:/Users/macie/Documents/Documentation"),
-
-    ("C:/Users/macie/Books/Library.html",
-     "Library",
-     "C:/Users/macie/Books"),
-    None
-)
-
-readableExtensions = ("pdf", "html", "jpg", "txt", "png")
+import DocSettings
 
 
 # creates .html file and writes basic html template
@@ -63,12 +50,12 @@ def addDescripion(descLines, doc):
 
 
 #main recursive function
-def rek(directory):
+def main(directory):
     result = list(os.walk(directory))[0]
     if result[1]:
         for subDir in result[1]:
             startList(subDir)
-            rek(directory + '/' + subDir)
+            main(directory + '/' + subDir)
             closeList()
     else:
         description = 0
@@ -84,7 +71,7 @@ def rek(directory):
             description = ("none", "none")
         for doc in result[2]:
             extension = doc[doc.find('.')+1:]
-            if extension in readableExtensions:
+            if extension in DocSettings.readableExtensions:
                 if doc == ".description":
                     continue
                 addItem(result[0], doc)
@@ -95,11 +82,11 @@ def rek(directory):
                         file.write(buffer + "<p></p>")
         descriptionFile.close()
 
-for setting in settings:
-    if setting is None:
-        continue
+
+#run main for every setting
+for setting in DocSettings.settings:
     file = startFile(setting[0], setting[1])
-    rek(setting[2])
+    main(setting[2])
     closeFile()
 
 
