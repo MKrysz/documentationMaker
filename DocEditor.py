@@ -2,6 +2,12 @@ import os
 import DocSettings
 import DocMaker
 
+menuStr = "Type :\n"\
+"/s keyword to search for all files containg that keyword\n"\
+"/x to exit\n"
+
+
+
 def search(keyword):
     result = []
     for setting in DocSettings.settings:
@@ -17,12 +23,25 @@ def printChoices(choices = []):
         print('[', i, '] ', choice)
         i += 1
 
-userInput = input("Type /s keyword to search for all files containing that keyword:\n")
-if userInput[:2] == "/s":
-    choices = search(userInput[3:])
-    if choices is None:
-        print("Files not found")
+def Command(strCommand):
+    return strCommand[:2], strCommand[3:]
+
+def getCommand():
+    userInput = input(menuStr)
+    return Command(userInput)
+
+def execute(cmd):
+    if cmd[0] == "/s":
+        choices = search(cmd[1])
+        if choices is None:
+            print("No files found")
+        else:
+            printChoices(choices)
     else:
-        printChoices(choices)
-else:
-    print("Not a valid command")       
+        print("Invalid command")
+
+command = getCommand()
+while command[0] != "/x":
+    execute(command)          
+    command = getCommand()
+print("Exitting...")
