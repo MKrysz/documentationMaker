@@ -1,14 +1,28 @@
 import os
 import DocSettings
+import DocMaker
 
-print("Choose path to file or type /s 'keyword' to search for all files containing that keyword:")
-i = 0
-for setting in DocSettings.settings:
-    print('[', i, '] ', setting[2])
-    i += 1
-userInput = input()
-if userInput.isdigit:
-    choice = int(userInput)
-    result = DocSettings.settings[choice][2]
-result = list(os.walk(result))[0][1]
-print(result)
+def search(keyword):
+    result = []
+    for setting in DocSettings.settings:
+        for root, dir, files in os.walk(setting[2]):
+            for file in files:
+                if keyword.lower() in file.lower():
+                    result.append(DocMaker.getAddress(root, file))
+    return result if result else None
+
+def printChoices(choices = []):
+    i = 0
+    for choice in choices:
+        print('[', i, '] ', choice)
+        i += 1
+
+userInput = input("Type /s keyword to search for all files containing that keyword:\n")
+if userInput[:2] == "/s":
+    choices = search(userInput[3:])
+    if choices is None:
+        print("Files not found")
+    else:
+        printChoices(choices)
+else:
+    print("Not a valid command")       
