@@ -3,8 +3,12 @@ import DocSettings
 import DocMaker
 
 menuStr = "Type :\n"\
-"/s keyword to search for all files containg that keyword\n"\
-"/x to exit\n"
+    "/s keyword to search for all files containg that keyword\n"\
+    "/x to exit\n"
+
+actionStr = "Type :\n"\
+    "/r new name.x to rename file to 'new name.x'\n"\
+    "/d new description to change the description to 'new description'\n"
 
 
 
@@ -23,12 +27,22 @@ def printChoices(choices = []):
         print('[', i, '] ', choice)
         i += 1
 
-def Command(strCommand):
+def splitCommand(strCommand):
     return strCommand[:2], strCommand[3:]
 
 def getCommand():
     userInput = input(menuStr)
-    return Command(userInput)
+    return splitCommand(userInput)
+
+def getAction():
+    userInput = input(actionStr)
+    return splitCommand(userInput)
+
+def rename(pathToOldFile, newFileName):
+    return True
+
+def changeDescription(filePath, newDescription):
+    return True
 
 def execute(cmd):
     if cmd[0] == "/s":
@@ -37,9 +51,20 @@ def execute(cmd):
             print("No files found")
         else:
             printChoices(choices)
+            userInput = input()
+            while not userInput.isdigit():
+                userInput = input()
+            choice = choices[userInput]
+            print("You've chosen ", choice)
+            action = getAction()
+            if action[0] == "/r":
+                rename(choice, action[1])
+            elif action[0] == "/d":
+                changeDescription(choice, action[1])
     else:
         print("Invalid command")
 
+#main 
 command = getCommand()
 while command[0] != "/x":
     execute(command)          
