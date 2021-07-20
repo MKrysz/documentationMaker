@@ -38,11 +38,31 @@ def getAction():
     userInput = input(actionStr)
     return splitCommand(userInput)
 
-def rename(pathToOldFile, newFileName):
-    return True
+def getPath(path):
+    return path[:path.rfind('\\')]
+
+def getFileName(path):
+    return path[path.rfind('\\'):]
+
+
+def rename(filePath, newFileName):
+    root = getPath(filePath)
+    oldFileName = getFileName(filePath)
+    os.rename(filePath, DocMaker.getAddress(root, newFileName))
+    pathToDescription = DocMaker.getAddress(root, '.description')
+    description = open(pathToDescription, "r")
+    descriptionLines = description.readlines()
+    for line in descriptionLines:
+        if oldFileName in line:
+            line = line.replace(oldFileName, newFileName)
+    description.close()
+    description = open(pathToDescription, "w")
+    for line in descriptionLines:
+        description.write(line)
+
 
 def changeDescription(filePath, newDescription):
-    return True
+    return False
 
 def execute(cmd):
     if cmd[0] == "/s":
@@ -61,6 +81,8 @@ def execute(cmd):
                 rename(choice, action[1])
             elif action[0] == "/d":
                 changeDescription(choice, action[1])
+            else:
+                print("Invalid command")
     else:
         print("Invalid command")
 
