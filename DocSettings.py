@@ -1,11 +1,12 @@
 
 #provide path and name of created .html file, title of page, path to your documentation
 settings = (
-    ("C:/Users/macie/Documents/Documentation/documentation.html",
-     "Electronic documentation",
-     "C:/Users/macie/Documents/Documentation"),
+    ("C:/Users/macie/Documents/Documentation/documentation.html",#file name
+     "Electronic documentation",#web page's title
+     "C:/Users/macie/Documents/Documentation"),#directory
 
-    ("C:/Users/macie/Books/Library.html",
+    #second set for another .html file
+     ("C:/Users/macie/Books/Library.html",
      "Library",
      "C:/Users/macie/Books")
 )
