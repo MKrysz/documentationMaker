@@ -2,6 +2,7 @@ import os
 import DocSettings
 import DocMaker
 
+
 menuStr = "Type :\n"\
     "/s keyword to search for all files containg that keyword\n"\
     "/x to exit\n"
@@ -42,7 +43,7 @@ def getPath(path):
     return path[:path.rfind('\\')]
 
 def getFileName(path):
-    return path[path.rfind('\\'):]
+    return path[path.rfind('\\')+1:]
 
 
 def rename(filePath, newFileName):
@@ -52,13 +53,13 @@ def rename(filePath, newFileName):
     pathToDescription = DocMaker.getAddress(root, '.description')
     description = open(pathToDescription, "r")
     descriptionLines = description.readlines()
-    for line in descriptionLines:
-        if oldFileName in line:
-            line = line.replace(oldFileName, newFileName)
     description.close()
     description = open(pathToDescription, "w")
     for line in descriptionLines:
+        if oldFileName in line:
+            line = line.replace(oldFileName, newFileName)
         description.write(line)
+    description.close()
 
 
 def changeDescription(filePath, newDescription):
@@ -74,6 +75,7 @@ def execute(cmd):
             userInput = input()
             while not userInput.isdigit():
                 userInput = input()
+            userInput = int(userInput)
             choice = choices[userInput]
             print("You've chosen ", choice)
             action = getAction()
@@ -86,9 +88,13 @@ def execute(cmd):
     else:
         print("Invalid command")
 
-#main 
-command = getCommand()
-while command[0] != "/x":
-    execute(command)          
+def main():
     command = getCommand()
-print("Exitting...")
+    while command[0] != "/x":
+        execute(command)          
+        command = getCommand()
+    print("Exitting...")
+    DocMaker.main()#update .html file
+
+#run script
+main()
