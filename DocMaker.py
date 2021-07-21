@@ -83,11 +83,12 @@ def mainRecursive(directory, file):
         descriptionFile.close()
 
 
-#run main for every setting
+#run for every setting
 def main():
     for setting in DocSettings.settings:
         file = startFile(setting[0], setting[1])
         mainRecursive(setting[2], file)
         closeFile(file)
 
+#run script
 main()

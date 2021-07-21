@@ -77,11 +77,13 @@ def changeDescription(filePath, newDescription):
     description.close()
 
 def execute(cmd):
-    if cmd[0] == "/s":
+    if cmd[0] == "/s":#if command is search
         choices = search(cmd[1])
         if choices is None:
             print("No files found")
         else:
+
+            #for choosing exact file
             printChoices(choices)
             userInput = input()
             while not userInput.isdigit():
@@ -89,7 +91,8 @@ def execute(cmd):
             userInput = int(userInput)
             choice = choices[userInput]
             print("You've chosen ", choice)
-            action = getAction()
+
+            action = getAction()#action is 2-element touple, [0] is function ID, [1] is its argument
             if action[0] == "/r":
                 rename(choice, action[1])
             elif action[0] == "/d":
@@ -100,7 +103,7 @@ def execute(cmd):
         print("Invalid command")
 
 def main():
-    command = getCommand()
+    command = getCommand()#command is 2-element touple, [0] is function ID, [1] is its argument
     while command[0] != "/x":
         execute(command)          
         command = getCommand()
