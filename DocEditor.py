@@ -63,7 +63,18 @@ def rename(filePath, newFileName):
 
 
 def changeDescription(filePath, newDescription):
-    return False
+    root = getPath(filePath)
+    fileName = getFileName(filePath)
+    pathToDescription = DocMaker.getAddress(root, '.description')
+    description = open(pathToDescription, "r")
+    descriptionLines = description.readlines()
+    description.close()
+    description = open(pathToDescription, "w")
+    for line in descriptionLines:
+        if fileName in line:
+            line = fileName + " " + newDescription
+        description.write(line)
+    description.close()
 
 def execute(cmd):
     if cmd[0] == "/s":
