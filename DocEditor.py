@@ -2,17 +2,21 @@ import os
 import DocSettings
 import DocMaker
 
-
+#menu shown on start
 menuStr = "Type :\n"\
     "/s keyword to search for all files containg that keyword\n"\
     "/x to exit\n"
 
+#menu shown after choosing a file
 actionStr = "Type :\n"\
     "/r new name.x to rename file to 'new name.x'\n"\
     "/d new description to change the description to 'new description'\n"
+    #TODO:
+    #change /d to /c
+    #add /d that deletes specified file and its description
+    #add /x that returns to the previous menu
 
-
-
+#looks for files with keyword in their name
 def search(keyword):
     result = []
     for setting in DocSettings.settings:
@@ -22,12 +26,14 @@ def search(keyword):
                     result.append(DocMaker.getAddress(root, file))
     return result if result else None
 
+#prints choices with their indexes to the console
 def printChoices(choices = []):
     i = 0
     for choice in choices:
         print('[', i, '] ', choice)
         i += 1
 
+#splits users input to command indentifier and command argument
 def splitCommand(strCommand):
     return strCommand[:2], strCommand[3:]
 
@@ -39,13 +45,15 @@ def getAction():
     userInput = input(actionStr)
     return splitCommand(userInput)
 
+#gets path to folder of the file specified in path variable
 def getPath(path):
     return path[:path.rfind('\\')]
 
+#gets file's name from its path
 def getFileName(path):
     return path[path.rfind('\\')+1:]
 
-
+#renames file both in os and .description
 def rename(filePath, newFileName):
     root = getPath(filePath)
     oldFileName = getFileName(filePath)
@@ -61,7 +69,7 @@ def rename(filePath, newFileName):
         description.write(line)
     description.close()
 
-
+#changes desription of the file
 def changeDescription(filePath, newDescription):
     root = getPath(filePath)
     fileName = getFileName(filePath)
@@ -82,7 +90,6 @@ def execute(cmd):
         if choices is None:
             print("No files found")
         else:
-
             #for choosing exact file
             printChoices(choices)
             userInput = input()
@@ -90,9 +97,10 @@ def execute(cmd):
                 userInput = input()
             userInput = int(userInput)
             choice = choices[userInput]
-            print("You've chosen ", choice)
+            print("You've chosen : ", choice)
 
             action = getAction()#action is 2-element touple, [0] is function ID, [1] is its argument
+            #TODO I recommend adding possible actions' IDs to a touple
             if action[0] == "/r":
                 rename(choice, action[1])
             elif action[0] == "/d":
@@ -110,5 +118,6 @@ def main():
     print("Exitting...")
     DocMaker.main()#update .html file
 
-#run script
+#TODO: 
+#you know what
 main()
