@@ -12,3 +12,6 @@ Just add them to the folder of your choice inside specified directory and run *D
 ### Editing descriptions/renaming files
 
 You should use provided *DocEditor.py* script for that.
+
+### Known issues
+1. not compatible with Firefox wiki-tiki-ti-da

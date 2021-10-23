@@ -48,7 +48,7 @@ def addDescripion(descLines, doc, file):
             return 1
     return 0
 
-
+#TODO allow working with files and subfolders in the same dir
 #main recursive function
 def mainRecursive(directory, file):
     result = list(os.walk(directory))[0]
@@ -86,7 +86,12 @@ def mainRecursive(directory, file):
 #run for every setting
 def main():
     for setting in DocSettings.settings:
-        file = startFile(setting[0], setting[1])
-        mainRecursive(setting[2], file)
-        closeFile(file)
+        if setting:
+            file = startFile(setting[0], setting[1])
+            mainRecursive(setting[2], file)
+            closeFile(file)
+        else:
+            break
 
+if __name__ == "__main__":
+    main()

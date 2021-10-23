@@ -2,9 +2,13 @@ import os
 import DocSettings
 import DocMaker
 
+dct_action = {
+    '/r': "new name.x to rename file to 'new name.x'"
+}
+
 #menu shown on start
 menuStr = "Type :\n"\
-    "/s keyword to search for all files containg that keyword\n"\
+    "/s" + " keyword to search for all files containg that keyword\n"\
     "/x to exit\n"
 
 #menu shown after choosing a file
