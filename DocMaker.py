@@ -90,5 +90,3 @@ def main():
         mainRecursive(setting[2], file)
         closeFile(file)
 
-#run script
-main()
