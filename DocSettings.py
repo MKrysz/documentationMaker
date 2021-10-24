@@ -17,8 +17,7 @@ elif Bartek_comp:
     settings = (
         ("D:/barte/documentation_manager/documentationMaker/biblioteka.html",#file name
         "biblioteka Bartek",#web page's title
-        "D:/barte/biblioteka"),#directory
-        ()
+        "D:/barte/biblioteka")#directory   
     )
 
 #change extensions you want to include in your web page

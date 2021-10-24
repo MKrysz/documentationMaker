@@ -21,24 +21,29 @@ def closeFile(file):
     file.write("</body>\n")
     file.write("</html>\n")
 
+
 #starts html list with 'name' header
 def startList(name, file):
     file.write("<p></p> <li><ul><h><b>" + name + "</b></h>\n")
 
+
 #closes list
 def closeList(file):
     file.write("</ul></li>\n")
+
 
 #adds pdf file to a list
 def addItem(directory, doc, file):
     buffer = "<li><a style=\"color:blue\" href=\"" + getAddress(directory, doc) + "\" target = \"_blank\">" + doc
     file.write(buffer + "</a></li>\n")
 
+
 def getAddress(directory, doc):
     result = directory + '/' + doc
     if os.name == "nt":
         result = result.replace('/', '\\')
     return result
+
 
 def addDescripion(descLines, doc, file):
     for line in descLines:
@@ -48,8 +53,10 @@ def addDescripion(descLines, doc, file):
             return 1
     return 0
 
+
 #TODO allow working with files and subfolders in the same dir
 #main recursive function
+
 def mainRecursive(directory, file):
     result = list(os.walk(directory))[0]
     if result[1]:
@@ -57,6 +64,7 @@ def mainRecursive(directory, file):
             startList(subDir, file)
             mainRecursive(directory + '/' + subDir, file)
             closeList(file)
+
     else:
         description = 0
         descriptionFound = 0
@@ -66,20 +74,25 @@ def mainRecursive(directory, file):
                 descriptionFile = open(getAddress(result[0], doc), 'r+')
                 description = descriptionFile.readlines()
                 break
+
         if not descriptionFound:
             descriptionFile = open(getAddress(result[0], ".description"), 'w')
             description = ("none", "none")
+
         for doc in result[2]:
             extension = doc[doc.find('.')+1:]
             if extension in DocSettings.readableExtensions:
                 if doc == ".description":
                     continue
+
                 addItem(result[0], doc, file)
+
                 if description:
                     if not addDescripion(description, doc, file):
                         buffer = input("add description for " + doc + '\n')
                         descriptionFile.write('\n' + doc + ' ' + buffer)
                         file.write(buffer + "<p></p>")
+
         descriptionFile.close()
 
 
@@ -90,8 +103,11 @@ def main():
             file = startFile(setting[0], setting[1])
             mainRecursive(setting[2], file)
             closeFile(file)
+
         else:
             break
 
+
 if __name__ == "__main__":
     main()
+    
