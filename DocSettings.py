@@ -1,8 +1,7 @@
-Maciek_comp = 0
-Bartek_comp = 1
+comp = 'Bartek'
 
 #provide path and name of created .html file, title of page, path to your documentation
-if Maciek_comp:
+if comp == 'Maciek':
     settings = (
         ("C:/Users/macie/Documents/Documentation/documentation.html",#file name
         "Electronic documentation",#web page's title
@@ -13,7 +12,7 @@ if Maciek_comp:
         "Library",
         "C:/Users/macie/Books")
     )
-elif Bartek_comp:
+elif comp == 'Bartek':
     settings = (
         ("D:/barte/documentation_manager/documentationMaker/biblioteka.html",#file name
         "biblioteka Bartek",#web page's title
