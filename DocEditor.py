@@ -154,7 +154,5 @@ def main():
     print("Exitting...")
     DocMaker.main()  #update .html file
 
-
-#TODO: 
-#you know what
-main()
+if __name__ == "__main__":
+    main()
