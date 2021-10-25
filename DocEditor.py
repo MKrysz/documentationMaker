@@ -33,10 +33,13 @@ actionStr = "Type :\n"\
 def search(keyword):
     result = []
 
-    for setting in DocSettings.settings:
+    for setting in DocSettings.settings: #for -> walk through tuple in settings (in DocSettings)
+        
         for root, dir, files in os.walk(setting[2]): #walk through directories, files and roots
-            for file in files:
-                if keyword.lower() in file.lower():
+                                            
+            for file in files: #it's walk without lookking for directories
+                
+                if keyword.lower() in file.lower(): #every file
                     result.append(DocMaker.getAddress(root, file))
 
     return result if result else None
