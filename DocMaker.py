@@ -86,7 +86,11 @@ def mainRecursive(directory, file):
 #run for every setting
 def main():
     for setting in DocSettings.settings:
+        if not setting:
+            continue
         file = startFile(setting[0], setting[1])
         mainRecursive(setting[2], file)
         closeFile(file)
 
+if __name__ == "__main__":
+    main()

@@ -20,6 +20,8 @@ actionStr = "Type :\n"\
 def search(keyword):
     result = []
     for setting in DocSettings.settings:
+        if not setting:
+            continue
         for root, dir, files in os.walk(setting[2]):
             for file in files:
                 if keyword.lower() in file.lower():
@@ -118,6 +120,5 @@ def main():
     print("Exitting...")
     DocMaker.main()#update .html file
 
-#TODO: 
-#you know what
-main()
+if __name__ == "__main__":
+    main()
