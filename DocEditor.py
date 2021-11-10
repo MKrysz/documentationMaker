@@ -1,20 +1,61 @@
 import os
+from types import FunctionType
+from typing import List
 import DocSettings
 import DocMaker
 
-#menu shown on start
-menuStr = "Type :\n"\
-    "/s keyword to search for all files containg that keyword\n"\
-    "/x to exit\n"
+commands = {
+    "s": "/s keyword to search for all files containg that keyword",
+    "x": "/x to exit",
+    "r": "/r new name.x to rename file to 'new name.x'"
+}
+    
+class command:
+    id: str #single letter id
+    desc: str #one line description
+    scope: str #where can this command be used: 'a'- All, everywhere; 'm' - Main menu; 's' - afterSearch
+    function: FunctionType
 
-#menu shown after choosing a file
-actionStr = "Type :\n"\
-    "/r new name.x to rename file to 'new name.x'\n"\
-    "/d new description to change the description to 'new description'\n"
-    #TODO:
-    #change /d to /c
-    #add /d that deletes specified file and its description
-    #add /x that returns to the previous menu
+    def __init__(self, id: str, desc: str, scope: str, function) -> None:
+        self.id = id
+        self.desc = desc
+        self.scope = scope
+        self.function = function
+
+    def execute(filePath: str, args: str = None):
+        return function(filePath, args)
+
+#TODO write graph search
+def search(filePath, keyword):
+    pass
+
+#TODO rewrite using os functionality
+def rename(filePath, newName):
+    pass
+
+#TODO rewrite using os functionality
+def changeDesc(filePath, newDesc):
+    pass
+
+def makeDocs():
+    DocMaker.main()
+
+#FIXME
+def delete():
+    pass
+
+#all commands listed
+commands = (
+    command('s', "keyword to search for all files containg that keyword", 'a', search),
+    command('r', "new name.x to rename file to 'new name.x'", 's', rename),
+    command('c', "new description to change the description to 'new description'", 's', changeDesc),
+    command('d', "to delete this entry", 's', delete),
+    command('m', "to make/remake all documentations", 'm', makeDocs)
+)
+
+#gets all commands in given scope
+def getCommandsByScope(scope: str) -> List[command]:
+    return [cmd for cmd in commands if cmd.scope == scope]
 
 #looks for files with keyword in their name
 def search(keyword):
