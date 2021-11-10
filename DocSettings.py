@@ -6,7 +6,9 @@ settings = (
      "C:/Users/macie/Documents/Documentation"),#directory
 
     #second set for another .html file
-     (None)
+     ("C:/Users/macie/Documents/Books/library.html",#file name
+     "Library",#web page's title
+     "C:/Users/macie/Documents/Books")
 )
 
 #change extensions you want to include in your web page
